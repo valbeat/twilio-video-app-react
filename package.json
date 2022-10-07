@@ -30,6 +30,7 @@
     "firebase": "^9.9.0",
     "firebase-admin": "^11.2.1",
     "fscreen": "^1.0.2",
+    "http-proxy-middleware": "^2.0.6",
     "husky": "^3.1.0",
     "linkify-it": "^3.0.2",
     "lint-staged": "^9.5.0",
@@ -98,7 +99,7 @@
     "test:ci": "cross-env TZ=utc jest --config jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit --coverage --silent",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome",
-    "cypress:ci": "cross-env CYPRESS_baseUrl=http://localhost:8081 start-server-and-test server http://localhost:8081 cypress:run",
+    "cypress:ci": "cross-env CYPRESS_baseUrl=http://localhost:6000 start-server-and-test server http://localhost:6000 cypress:run",
     "deploy:twilio-cli": "cross-env REACT_APP_SET_AUTH=passcode npm run build && twilio rtc:apps:video:deploy --authentication=passcode --app-directory ./build",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
@@ -139,10 +140,10 @@
       "pre-commit": "lint-staged"
     }
   },
-  "proxy": "http://localhost:8081/",
   "jest": {
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
   }
 }
+
