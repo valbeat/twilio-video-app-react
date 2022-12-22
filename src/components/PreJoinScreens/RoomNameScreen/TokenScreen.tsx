@@ -27,15 +27,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface RoomNameScreenProps {
+interface TokenScreenProps {
   name: string;
-  roomName: string;
+  token: string;
   setName: (name: string) => void;
-  setRoomName: (roomName: string) => void;
+  setToken: (roomName: string) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-export default function RoomNameScreen({ name, roomName, setName, setRoomName, handleSubmit }: RoomNameScreenProps) {
+export default function TokenScreen({ name, token, setName, setToken, handleSubmit }: TokenScreenProps) {
   const classes = useStyles();
   const { user } = useAppState();
 
@@ -43,8 +43,8 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
     setName(event.target.value);
   };
 
-  const handleRoomNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRoomName(event.target.value);
+  const handleTokenChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setToken(event.target.value);
   };
 
   const hasUsername = !window.location.search.includes('customIdentity=true') && user?.displayName;
@@ -78,7 +78,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
           )}
           <div className={classes.textFieldContainer}>
             <InputLabel shrink htmlFor="input-room-name">
-              Room Name
+              TOKEN
             </InputLabel>
             <TextField
               autoCapitalize="false"
@@ -86,8 +86,8 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
               variant="outlined"
               fullWidth
               size="small"
-              value={roomName}
-              onChange={handleRoomNameChange}
+              value={token}
+              onChange={handleTokenChange}
             />
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
             variant="contained"
             type="submit"
             color="primary"
-            disabled={!name || !roomName}
+            disabled={!name || !token}
             className={classes.continueButton}
           >
             Continue

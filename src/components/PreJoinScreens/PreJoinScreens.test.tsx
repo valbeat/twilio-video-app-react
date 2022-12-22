@@ -4,7 +4,7 @@ import DeviceSelectionScreen from './DeviceSelectionScreen/DeviceSelectionScreen
 import MediaErrorSnackbar from './MediaErrorSnackbar/MediaErrorSnackbar';
 import { mount, shallow } from 'enzyme';
 import PreJoinScreens from './PreJoinScreens';
-import RoomNameScreen from './RoomNameScreen/RoomNameScreen';
+import TokenScreen from './RoomNameScreen/TokenScreen';
 import { useParams } from 'react-router-dom';
 import { useAppState } from '../../state';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
@@ -46,10 +46,10 @@ describe('the PreJoinScreens component', () => {
   it('should update the URL to include the room name on submit', () => {
     const wrapper = shallow(<PreJoinScreens />);
 
-    const setRoomName = wrapper.find(RoomNameScreen).prop('setRoomName');
+    const setRoomName = wrapper.find(TokenScreen).prop('setToken');
     setRoomName('Test Room 123');
 
-    const handleSubmit = wrapper.find(RoomNameScreen).prop('handleSubmit');
+    const handleSubmit = wrapper.find(TokenScreen).prop('handleSubmit');
     handleSubmit({ preventDefault: () => {} } as any);
 
     expect(window.history.replaceState).toHaveBeenCalledWith(null, '', '/room/Test%20Room%20123');
@@ -60,10 +60,10 @@ describe('the PreJoinScreens component', () => {
     window.location = { ...window.location, origin: 'https://video-app-1234-twil.io' };
     const wrapper = shallow(<PreJoinScreens />);
 
-    const setRoomName = wrapper.find(RoomNameScreen).prop('setRoomName');
+    const setRoomName = wrapper.find(TokenScreen).prop('setToken');
     setRoomName('Test Room 123');
 
-    const handleSubmit = wrapper.find(RoomNameScreen).prop('handleSubmit');
+    const handleSubmit = wrapper.find(TokenScreen).prop('handleSubmit');
     handleSubmit({ preventDefault: () => {} } as any);
 
     expect(window.history.replaceState).not.toHaveBeenCalled();
@@ -72,13 +72,13 @@ describe('the PreJoinScreens component', () => {
   it('should switch to the DeviceSelection screen when a room name is submitted', () => {
     const wrapper = shallow(<PreJoinScreens />);
 
-    expect(wrapper.find(RoomNameScreen).exists()).toBe(true);
+    expect(wrapper.find(TokenScreen).exists()).toBe(true);
     expect(wrapper.find(DeviceSelectionScreen).exists()).toBe(false);
 
-    const handleSubmit = wrapper.find(RoomNameScreen).prop('handleSubmit');
+    const handleSubmit = wrapper.find(TokenScreen).prop('handleSubmit');
     handleSubmit({ preventDefault: () => {} } as any);
 
-    expect(wrapper.find(RoomNameScreen).exists()).toBe(false);
+    expect(wrapper.find(TokenScreen).exists()).toBe(false);
     expect(wrapper.find(DeviceSelectionScreen).exists()).toBe(true);
   });
 
@@ -87,17 +87,17 @@ describe('the PreJoinScreens component', () => {
     const roomName = wrapper.find(DeviceSelectionScreen).prop('roomName');
     expect(roomName).toBe('testRoom');
 
-    expect(wrapper.find(RoomNameScreen).exists()).toBe(false);
+    expect(wrapper.find(TokenScreen).exists()).toBe(false);
     expect(wrapper.find(DeviceSelectionScreen).exists()).toBe(true);
   });
 
   it('should populate the room name from the URL and stay on the RoomNameScreen when the displayName is not present for the user', () => {
     mockUseAppState.mockImplementation(() => ({ user: {} }));
     const wrapper = mount(<PreJoinScreens />);
-    const roomName = wrapper.find(RoomNameScreen).prop('roomName');
+    const roomName = wrapper.find(TokenScreen).prop('token');
     expect(roomName).toBe('testRoom');
 
-    expect(wrapper.find(RoomNameScreen).exists()).toBe(true);
+    expect(wrapper.find(TokenScreen).exists()).toBe(true);
     expect(wrapper.find(DeviceSelectionScreen).exists()).toBe(false);
   });
 

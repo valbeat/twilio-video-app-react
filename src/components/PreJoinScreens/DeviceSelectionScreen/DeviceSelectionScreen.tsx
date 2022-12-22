@@ -71,23 +71,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface DeviceSelectionScreenProps {
   name: string;
-  roomName: string;
+  token: string;
   setStep: (step: Steps) => void;
 }
 
-export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
+export default function DeviceSelectionScreen({ name, token, setStep }: DeviceSelectionScreenProps) {
   const classes = useStyles();
-  const { getToken, isFetching, isKrispEnabled, isKrispInstalled } = useAppState();
+  const { isFetching, isKrispEnabled, isKrispInstalled } = useAppState();
   const { connect: chatConnect } = useChatContext();
   const { connect: videoConnect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const { toggleKrisp } = useKrispToggle();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
 
   const handleJoin = () => {
-    getToken(name, roomName).then(({ token }) => {
-      videoConnect(token);
-      process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true' && chatConnect(token);
-    });
+    videoConnect(token);
+    // chatConnect(token);
   };
 
   if (isFetching || isConnecting) {
@@ -108,7 +106,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join {roomName}
+        Join
       </Typography>
 
       <Grid container justifyContent="center">
@@ -189,7 +187,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
 
             <Grid item md={5} sm={12} xs={12}>
               <div className={classes.joinButtons}>
-                <Button variant="outlined" color="primary" onClick={() => setStep(Steps.roomNameStep)}>
+                <Button variant="outlined" color="primary" onClick={() => setStep(Steps.nameStep)}>
                   Cancel
                 </Button>
                 <Button
